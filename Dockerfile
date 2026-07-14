@@ -1,7 +1,10 @@
 FROM searxng/searxng:latest
 
-# Render के Port (10000) के साथ SearXNG को बाइंड करने के लिए
+# JSON फॉर्मेट को इनेबल करने के लिए एनवायरनमेंट वेरिएबल
 ENV SEARXNG_SETTINGS_PATH=/etc/searxng/settings.yml
-ENV BIND_ADDRESS=0.0.0.0:10000
+ENV BIND_ADDRESS=0.0.0.0:8080
 
-EXPOSE 10000
+# SearXNG की इंटरनल सेटिंग्स में से API/JSON ब्लॉक को हटाने के लिए कमांड
+RUN sed -i 's/formats: \[html\]/formats: \[html, json\]/g' /etc/searxng/settings.yml
+
+EXPOSE 8080
